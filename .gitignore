@@ -1,5 +1,32 @@
+# Scala CLI
+bin/
+target/
+build/
+.scala-build/
+.bloop/
+.bsp/
+.metals/
+.lh/
+.vscode/
+.cache/
+.cache-main
+.classpath
+.history
+.project
+.scala/
+.scala_dependencies
+.settings
+.worksheet
+.DS_Store
 *.class
+*.tasty
 *.log
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+*.iml
+*.ipr
+*.iws
+.idea
+meta.json
+metals.sbt
+project/project
+.config
+DID_Me
