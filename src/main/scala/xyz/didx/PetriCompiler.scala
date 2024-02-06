@@ -3,8 +3,8 @@ package xyz.didx
 import xyz.didx.ConfigManager.ProtocolConf
 import xyz.didx.StateManager
 import scala.collection.immutable.ListSet
-import dev.mn8.castanet.*
-import dev.mn8.castanet.{Service => CastanetService}
+import xyz.didx.castanet.*
+import xyz.didx.castanet.{Service => CastanetService}
 import org.http4s.HttpRoutes
 import org.http4s.server.Router
 import sttp.tapir._
@@ -277,8 +277,7 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
   val conversations: IO[List[String]] = generateConversationAgents()
 
   def writerIO(path: String): IO[FileWriter]                    =
-   
-    IO(new FileWriter(path,false))
+    IO(new FileWriter(path, false))
   def writeLines(writer: FileWriter, content: String): IO[Unit] =
     IO(writer.write(content))
 
@@ -304,12 +303,11 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
     camelCaseWords.mkString
 
   def generateConversationAgents(): IO[List[String]] =
-    val dir = "./generated"
+    val dir       = "./generated"
     val generated = new File(dir)
-    if (generated.exists()) {
+    if (generated.exists())
       generated.listFiles().foreach(_.delete())
-    }
-    else 
+    else
       generated.mkdir()
     placeParams
       .map { p =>
