@@ -25,6 +25,18 @@ lazy val root = project
     scalafixSettings
   )
 
+lazy val castanetVersion    = "0.1.10"
+lazy val catsEffectVersion  = "3.5.3"
+lazy val circeVersion       = "0.14.2"
+lazy val http4sVersion      = "0.23.25"
+lazy val http4sBlazeVersion = "0.23.16"
+lazy val logbackVersion     = "1.4.14"
+lazy val pureconfigVersion  = "0.17.5"
+lazy val scalaTestVersion   = "3.2.17"
+lazy val slf4jVersion       = "2.0.11"
+lazy val sttpVersion        = "3.9.2"
+lazy val tapirVersion       = "1.9.1"
+
 lazy val commonSettings   = Seq(
   resolvers ++= Seq(
     Resolver.mavenLocal,
@@ -34,50 +46,47 @@ lazy val commonSettings   = Seq(
     "releases" at "https://oss.sonatype.org/content/repositories/releases"
   ),
   libraryDependencies ++= Seq(
-    "org.typelevel"                 %% "toolkit"                        % "0.1.21",
-    "org.typelevel"                 %% "cats-effect"                    % "3.5.2",
-    "io.circe"                      %% "circe-core"                     % "0.14.6",
-    "io.circe"                      %% "circe-parser"                   % "0.14.6",
-    "io.circe"                      %% "circe-generic"                  % "0.14.6",
-    "com.github.pureconfig"         %% "pureconfig-core"                % "0.17.4",
-    "com.github.pureconfig"         %% "pureconfig-cats-effect"         % "0.17.4",
-    "com.softwaremill.sttp.client3" %% "core"                           % "3.9.1",
-    "com.softwaremill.sttp.client3" %% "circe"                          % "3.9.1",
-    "com.softwaremill.sttp.client3" %% "async-http-client-backend-cats" % "3.9.1",
-    "xyz.didx"                      %% "castanet"                       % "0.1.10",
-    "com.softwaremill.sttp.tapir"   %% "tapir-http4s-server"            % "1.9.1",
-    "org.http4s"                    %% "http4s-ember-server"            % "0.23.24",
-    "com.softwaremill.sttp.tapir"   %% "tapir-swagger-ui-bundle"        % "1.9.1",
-    "com.softwaremill.sttp.tapir"   %% "tapir-json-circe"               % "1.9.1",
-    "ch.qos.logback"                 % "logback-classic"                % "1.4.14",
+    "org.typelevel"                 %% "cats-effect"                    % catsEffectVersion,
+    "io.circe"                      %% "circe-core"                     % circeVersion,
+    "io.circe"                      %% "circe-parser"                   % circeVersion,
+    "io.circe"                      %% "circe-generic"                  % circeVersion,
+    "com.github.pureconfig"         %% "pureconfig-core"                % pureconfigVersion,
+    "com.github.pureconfig"         %% "pureconfig-cats-effect"         % pureconfigVersion,
+    "com.softwaremill.sttp.client3" %% "core"                           % sttpVersion,
+    "com.softwaremill.sttp.client3" %% "circe"                          % sttpVersion,
+    "com.softwaremill.sttp.client3" %% "async-http-client-backend-cats" % sttpVersion,
+    "xyz.didx"                      %% "castanet"                       % castanetVersion,
+    "com.softwaremill.sttp.tapir"   %% "tapir-http4s-server"            % tapirVersion,
+    "com.softwaremill.sttp.tapir"   %% "tapir-json-circe"               % tapirVersion,
+    "com.softwaremill.sttp.tapir"   %% "tapir-swagger-ui-bundle"        % tapirVersion,
+    "ch.qos.logback"                 % "logback-classic"                % logbackVersion,
     "com.github.geirolz"            %% "erules-core"                    % "0.1.0",
-    "org.http4s"                    %% "http4s-blaze-server"            % "0.23.15",
-    "org.http4s"                    %% "http4s-dsl"                     % "0.23.24",
-    "org.slf4j"                      % "slf4j-nop"                      % "2.0.9"
+    "org.http4s"                    %% "http4s-blaze-server"            % http4sBlazeVersion,
+    "org.http4s"                    %% "http4s-dsl"                     % http4sVersion,
+    "org.http4s"                    %% "http4s-ember-server"            % http4sVersion,
+    "org.slf4j"                      % "slf4j-nop"                      % slf4jVersion
   ) ++ Seq(
-    "org.typelevel"                 %% "toolkit-test"                   % "0.1.21"  % Test,
-    "com.softwaremill.sttp.tapir"   %% "tapir-sttp-stub-server"         % "1.9.1"   % Test,
-    "org.scalatest"                 %% "scalatest"                      % "3.2.17"  % Test,
-    "com.softwaremill.sttp.client3" %% "circe"                          % "3.9.1"   % Test,
-    "org.typelevel"                 %% "toolkit"                        % "0.1.21"  % Test,
-    "org.typelevel"                 %% "cats-effect"                    % "3.5.2"   % Test,
-    "io.circe"                      %% "circe-core"                     % "0.14.6"  % Test,
-    "io.circe"                      %% "circe-parser"                   % "0.14.6"  % Test,
-    "io.circe"                      %% "circe-generic"                  % "0.14.6"  % Test,
-    "com.github.pureconfig"         %% "pureconfig-core"                % "0.17.4"  % Test,
-    "com.github.pureconfig"         %% "pureconfig-cats-effect"         % "0.17.4"  % Test,
-    "com.softwaremill.sttp.client3" %% "core"                           % "3.9.1"   % Test,
-    "com.softwaremill.sttp.client3" %% "async-http-client-backend-cats" % "3.9.1"   % Test,
-    "xyz.didx"                      %% "castanet"                       % "0.1.10"  % Test,
-    "com.softwaremill.sttp.tapir"   %% "tapir-http4s-server"            % "1.9.1"   % Test,
-    "org.http4s"                    %% "http4s-ember-server"            % "0.23.24" % Test,
-    "com.softwaremill.sttp.tapir"   %% "tapir-swagger-ui-bundle"        % "1.9.1"   % Test,
-    "com.softwaremill.sttp.tapir"   %% "tapir-json-circe"               % "1.9.1"   % Test,
-    "ch.qos.logback"                 % "logback-classic"                % "1.4.14"  % Test,
-    "com.github.geirolz"            %% "erules-core"                    % "0.1.0"   % Test,
-    "org.http4s"                    %% "http4s-blaze-server"            % "0.23.15" % Test,
-    "org.http4s"                    %% "http4s-dsl"                     % "0.23.24" % Test,
-    "org.slf4j"                      % "slf4j-nop"                      % "2.0.9"   % Test
+    "org.scalatest"                 %% "scalatest"                      % scalaTestVersion   % Test,
+    "org.typelevel"                 %% "cats-effect"                    % catsEffectVersion  % Test,
+    "io.circe"                      %% "circe-core"                     % circeVersion       % Test,
+    "io.circe"                      %% "circe-parser"                   % circeVersion       % Test,
+    "io.circe"                      %% "circe-generic"                  % circeVersion       % Test,
+    "com.github.pureconfig"         %% "pureconfig-core"                % pureconfigVersion  % Test,
+    "com.github.pureconfig"         %% "pureconfig-cats-effect"         % pureconfigVersion  % Test,
+    "com.softwaremill.sttp.client3" %% "circe"                          % sttpVersion        % Test,
+    "com.softwaremill.sttp.client3" %% "core"                           % sttpVersion        % Test,
+    "com.softwaremill.sttp.client3" %% "async-http-client-backend-cats" % sttpVersion        % Test,
+    "xyz.didx"                      %% "castanet"                       % castanetVersion    % Test,
+    "com.softwaremill.sttp.tapir"   %% "tapir-http4s-server"            % tapirVersion       % Test,
+    "com.softwaremill.sttp.tapir"   %% "tapir-json-circe"               % tapirVersion       % Test,
+    "com.softwaremill.sttp.tapir"   %% "tapir-sttp-stub-server"         % tapirVersion       % Test,
+    "com.softwaremill.sttp.tapir"   %% "tapir-swagger-ui-bundle"        % tapirVersion       % Test,
+    "ch.qos.logback"                 % "logback-classic"                % logbackVersion     % Test,
+    "com.github.geirolz"            %% "erules-core"                    % "0.1.0"            % Test,
+    "org.http4s"                    %% "http4s-blaze-server"            % http4sBlazeVersion % Test,
+    "org.http4s"                    %% "http4s-dsl"                     % http4sVersion      % Test,
+    "org.http4s"                    %% "http4s-ember-server"            % http4sVersion      % Test,
+    "org.slf4j"                      % "slf4j-nop"                      % slf4jVersion       % Test
   )
 )
 lazy val scalafixSettings = Seq(semanticdbEnabled := true)
