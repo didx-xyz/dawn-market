@@ -12,6 +12,12 @@ ThisBuild / organization         := "xyz.didx"
 ThisBuild / organizationName     := "DIDx"
 ThisBuild / organizationHomepage := Some(url("https://www.didx.co.za/"))
 
+ThisBuild / githubOwner      := "didx-xyz"
+ThisBuild / githubRepository := "dawn-market"
+githubTokenSource            := TokenSource.GitConfig("github.token") || TokenSource.Environment(
+  "GITHUB_TOKEN"
+)
+
 lazy val root = project
   .in(file("."))
   .settings(
