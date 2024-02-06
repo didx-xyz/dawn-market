@@ -12,7 +12,21 @@ ThisBuild / organization         := "xyz.didx"
 ThisBuild / organizationName     := "DIDx"
 ThisBuild / organizationHomepage := Some(url("https://www.didx.co.za/"))
 
-lazy val commonSettings = Seq(
+lazy val root = project
+  .in(file("."))
+  .settings(
+    commonSettings,
+    scalafixSettings
+  )
+
+lazy val commonSettings   = Seq(
+  resolvers ++= Seq(
+    Resolver.mavenLocal,
+    "github" at "https://maven.pkg.github.com/didx-xyz",
+    "jitpack" at "https://jitpack.io",
+    "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+    "releases" at "https://oss.sonatype.org/content/repositories/releases"
+  ),
   libraryDependencies ++= Seq(
     "org.typelevel"                 %% "toolkit"                        % "0.1.21",
     "org.typelevel"                 %% "cats-effect"                    % "3.5.2",
@@ -60,3 +74,4 @@ lazy val commonSettings = Seq(
     "org.slf4j"                      % "slf4j-nop"                      % "2.0.9"   % Test
   )
 )
+lazy val scalafixSettings = Seq(semanticdbEnabled := true)
