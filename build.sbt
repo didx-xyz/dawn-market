@@ -1,8 +1,17 @@
-scalaVersion := "3.3.1"
+lazy val Scala3   = "3.3.1"
+lazy val Scala213 = "2.13.6"
 
-testFrameworks += new TestFramework("munit.Framework")
+Global / scalaVersion         := Scala3
+Global / onChangedBuildSource := ReloadOnSourceChanges
 
-resolvers ++= Seq("repo-0" at "https://jitpack.io")
+ThisBuild / version := "0.0.1"
+
+ThisBuild / testFrameworks += new TestFramework("munit.Framework")
+
+ThisBuild / organization         := "xyz.didx"
+ThisBuild / organizationName     := "DIDx"
+ThisBuild / organizationHomepage := Some(url("https://www.didx.co.za/"))
+
 
 libraryDependencies ++= Seq(
   "org.typelevel" %% "toolkit" % "latest.release" ,
