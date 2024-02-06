@@ -1,29 +1,33 @@
 package xyz.didx
 
-import xyz.didx.ConfigManager.ProtocolConf
-import xyz.didx.StateManager
-import scala.collection.immutable.ListSet
-import dev.mn8.castanet.*
-import dev.mn8.castanet.{Service => CastanetService}
+import cats.data.State
+import cats.data.StateT
+import cats.effect.IO
+import cats.effect.Resource
+import cats.implicits.*
+import cats.syntax.all.toSemigroupKOps
 import org.http4s.HttpRoutes
 import org.http4s.server.Router
+import sttp.client3.HttpURLConnectionBackend
+import sttp.client3.SttpBackend
+import sttp.model.*
 import sttp.tapir._
 import sttp.tapir.generic.auto._
 import sttp.tapir.json.circe._
 import sttp.tapir.server.http4s.Http4sServerInterpreter
 import sttp.tapir.swagger.bundle.SwaggerInterpreter
-import cats.effect.{IO, Resource}
-import sttp.client3.{HttpURLConnectionBackend, SttpBackend}
-import sttp.model.*
-import java.nio.file.{Files, Paths}
-import java.util.concurrent.atomic.AtomicReference
-import cats.syntax.all.toSemigroupKOps
-import cats.data.StateT
-import cats.data.State
-import java.nio.charset.StandardCharsets
-import java.io.FileWriter
-import cats.implicits.*
+import xyz.didx.ConfigManager.ProtocolConf
+import xyz.didx.StateManager
+import xyz.didx.castanet.*
+import xyz.didx.castanet.{Service => CastanetService}
+
 import java.io.File
+import java.io.FileWriter
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.concurrent.atomic.AtomicReference
+import scala.collection.immutable.ListSet
 
 case class PetriCompiler[F[_]](interfaceName: String)(using
   logger: org.log4s.Logger
@@ -277,8 +281,7 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
   val conversations: IO[List[String]] = generateConversationAgents()
 
   def writerIO(path: String): IO[FileWriter]                    =
-   
-    IO(new FileWriter(path,false))
+    IO(new FileWriter(path, false))
   def writeLines(writer: FileWriter, content: String): IO[Unit] =
     IO(writer.write(content))
 
@@ -304,12 +307,11 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
     camelCaseWords.mkString
 
   def generateConversationAgents(): IO[List[String]] =
-    val dir = "./generated"
+    val dir       = "./generated"
     val generated = new File(dir)
-    if (generated.exists()) {
+    if (generated.exists())
       generated.listFiles().foreach(_.delete())
-    }
-    else 
+    else
       generated.mkdir()
     placeParams
       .map { p =>
@@ -317,7 +319,7 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
           dashToCapitalize(p._1) -> s"${dashToCamelCase(p._2).map(s => s"$s: String").mkString(", ")}"
         val chatBotCode =
           s"""
-             |package dev.mn8.gleibnif
+             |package xyz.didx.gleibnif
              |import com.xebia.functional.xef.scala.agents.DefaultSearch
              |import com.xebia.functional.xef.scala.conversation.*
              |object ChatBot:

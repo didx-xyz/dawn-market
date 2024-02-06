@@ -5,7 +5,6 @@
 //> using nativeMode "release-fast"
 //> using repository https://jitpack.io
 
-
 //> using dep org.typelevel::cats-effect:3.5.2
 //> using dep io.circe::circe-core:0.14.6
 //> using dep io.circe::circe-parser:0.14.6
@@ -16,7 +15,7 @@
 //> using dep com.softwaremill.sttp.client3::core:3.9.1
 //> using dep com.softwaremill.sttp.client3::circe:3.9.1
 //> using dep com.softwaremill.sttp.client3::async-http-client-backend-cats:3.9.1
-//> using dep dev.mn8::castanet:0.1.14
+//> using dep xyz.didx::castanet:0.1.14
 //> using dep com.softwaremill.sttp.tapir::tapir-http4s-server:1.9.4
 //> using dep org.http4s::http4s-ember-server:0.23.24
 //> using dep com.softwaremill.sttp.tapir::tapir-swagger-ui-bundle:1.9.4
@@ -29,4 +28,4 @@
 //> using dep org.http4s::http4s-blaze-server:0.23.15
 //> using dep org.http4s::http4s-dsl:0.23.24
 
-//> using dep org.slf4j:slf4j-nop:2.0.9 
+//> using dep org.slf4j:slf4j-nop:2.0.9
