@@ -4,6 +4,7 @@ import cats.effect.*
 import scala.concurrent.ExecutionContext
 import org.http4s.blaze.server.BlazeServerBuilder
 import org.http4s.server.Router
+
 /**
  * PetriRunner
  *
@@ -26,7 +27,7 @@ object PetriRunner extends IOApp:
         .withExecutionContext(ec)
         .bindHttp(8080, "localhost")
         .withHttpApp(Router("/" -> (compiler.routes)).orNotFound)
-       // .withSocketKeepAlive(true)
+        // .withSocketKeepAlive(true)
         .resource
         .use { _ =>
           IO {
@@ -36,4 +37,3 @@ object PetriRunner extends IOApp:
           }
         }
         .as(ExitCode.Success)
-

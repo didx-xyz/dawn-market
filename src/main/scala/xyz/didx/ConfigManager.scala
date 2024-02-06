@@ -71,7 +71,7 @@ object ConfigManager {
          |""".stripMargin
 
   def protocolConf(interfaceName: String): ProtocolConf =
-    //ConfigSource.default.at(s"$interfaceName-proto").load[ProtocolConf] match
+    // ConfigSource.default.at(s"$interfaceName-proto").load[ProtocolConf] match
     ConfigSource.file("src/resources/application.conf").at(s"$interfaceName-proto").load[ProtocolConf] match
 
       case Left(error) =>
