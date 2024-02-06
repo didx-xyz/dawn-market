@@ -23,6 +23,7 @@ import cats.data.State
 import java.nio.charset.StandardCharsets
 import java.io.FileWriter
 import cats.implicits.*
+import java.io.File
 
 case class PetriCompiler[F[_]](interfaceName: String)(using
   logger: org.log4s.Logger
@@ -276,6 +277,7 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
   val conversations: IO[List[String]] = generateConversationAgents()
 
   def writerIO(path: String): IO[FileWriter]                    =
+   
     IO(new FileWriter(path,false))
   def writeLines(writer: FileWriter, content: String): IO[Unit] =
     IO(writer.write(content))
@@ -302,6 +304,13 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
     camelCaseWords.mkString
 
   def generateConversationAgents(): IO[List[String]] =
+    val dir = "./generated"
+    val generated = new File(dir)
+    if (generated.exists()) {
+      generated.listFiles().foreach(_.delete())
+    }
+    else 
+      generated.mkdir()
     placeParams
       .map { p =>
         val params: (String, String) =
@@ -324,7 +333,7 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
              |  }.getOrElse(ex => println(ex.getMessage))
              |""".stripMargin
 
-        val filePath = s"${params._1}.scala"
+        val filePath = s"./generated/${params._1}.scala"
 
         for
           _ <- IO.println(s"Chatbot code written to file: $filePath")
