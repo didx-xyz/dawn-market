@@ -1,12 +1,12 @@
 package xyz.didx
 
-import io.circe.generic.auto.*
-import sttp.tapir.generic.auto.*
-import sttp.tapir.json.circe.*
-import sttp.tapir.Schema
 import io.circe.*
+import io.circe.generic.auto.*
 import io.circe.syntax.*
 import magnolia1.Monadic.given_Monadic_Try
+import sttp.tapir.Schema
+import sttp.tapir.generic.auto.*
+import sttp.tapir.json.circe.*
 
 enum DID(did: String):
   case DIDWeb(did: String)     extends DID(did)

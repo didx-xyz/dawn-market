@@ -22,6 +22,7 @@ class StateManager {
  */
 import cats.effect.IO
 import cats.effect.kernel.Ref
+
 import java.util.UUID
 import scala.collection.immutable.HashMap
 //import didcomm.DIDTypes.*
