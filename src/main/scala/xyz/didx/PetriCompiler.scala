@@ -317,7 +317,7 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
           dashToCapitalize(p._1) -> s"${dashToCamelCase(p._2).map(s => s"$s: String").mkString(", ")}"
         val chatBotCode =
           s"""
-             |package dev.mn8.gleibnif
+             |package xyz.didx.gleibnif
              |import com.xebia.functional.xef.scala.agents.DefaultSearch
              |import com.xebia.functional.xef.scala.conversation.*
              |object ChatBot:
