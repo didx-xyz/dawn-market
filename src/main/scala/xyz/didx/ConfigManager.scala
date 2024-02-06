@@ -1,13 +1,13 @@
 package xyz.didx
 
-import pureconfig.*
-import pureconfig.generic.derivation.default.*
+import cats.effect.IO
+import cats.effect._
+import cats.effect.kernel.Sync
+import cats.implicits._
 import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
-import cats.effect.IO
-import cats.effect.kernel.Sync
-import cats.effect._
-import cats.implicits._
+import pureconfig.*
+import pureconfig.generic.derivation.default.*
 
 object ConfigManager {
   given Logger[IO]                            = Slf4jLogger.getLogger[IO]

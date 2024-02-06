@@ -1,29 +1,33 @@
 package xyz.didx
 
-import xyz.didx.ConfigManager.ProtocolConf
-import xyz.didx.StateManager
-import scala.collection.immutable.ListSet
-import xyz.didx.castanet.*
-import xyz.didx.castanet.{Service => CastanetService}
+import cats.data.State
+import cats.data.StateT
+import cats.effect.IO
+import cats.effect.Resource
+import cats.implicits.*
+import cats.syntax.all.toSemigroupKOps
 import org.http4s.HttpRoutes
 import org.http4s.server.Router
+import sttp.client3.HttpURLConnectionBackend
+import sttp.client3.SttpBackend
+import sttp.model.*
 import sttp.tapir._
 import sttp.tapir.generic.auto._
 import sttp.tapir.json.circe._
 import sttp.tapir.server.http4s.Http4sServerInterpreter
 import sttp.tapir.swagger.bundle.SwaggerInterpreter
-import cats.effect.{IO, Resource}
-import sttp.client3.{HttpURLConnectionBackend, SttpBackend}
-import sttp.model.*
-import java.nio.file.{Files, Paths}
-import java.util.concurrent.atomic.AtomicReference
-import cats.syntax.all.toSemigroupKOps
-import cats.data.StateT
-import cats.data.State
-import java.nio.charset.StandardCharsets
-import java.io.FileWriter
-import cats.implicits.*
+import xyz.didx.ConfigManager.ProtocolConf
+import xyz.didx.StateManager
+import xyz.didx.castanet.*
+import xyz.didx.castanet.{Service => CastanetService}
+
 import java.io.File
+import java.io.FileWriter
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.concurrent.atomic.AtomicReference
+import scala.collection.immutable.ListSet
 
 case class PetriCompiler[F[_]](interfaceName: String)(using
   logger: org.log4s.Logger
