@@ -1,9 +1,6 @@
 # DIDx:GO Marketplace with DIDx:Flow state engine
 
-<img src="src/resources/messaging.png" alt="MarineGEO circle logo" style="height: 500px; width:800px;"/>
-
 ## DIDKey Method: did:key
-
 
 ### DIDKey Registrar
 
@@ -14,4 +11,3 @@
 ### DIDWeb Registrar
 
 ### DIDWeb Resolver
-
