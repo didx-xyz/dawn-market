@@ -30,3 +30,4 @@ metals.sbt
 project/project
 .config
 DID_Me
+generated/
