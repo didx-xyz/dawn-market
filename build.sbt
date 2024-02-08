@@ -32,7 +32,7 @@ lazy val http4sBlazeVersion = "0.23.16"
 lazy val logbackVersion     = "1.4.14"
 lazy val pureconfigVersion  = "0.17.5"
 lazy val scalaTestVersion   = "3.2.17"
-lazy val slf4jVersion       = "2.0.11"
+lazy val slf4jVersion       = "2.0.12"
 lazy val sttpVersion        = "3.9.2"
 lazy val tapirVersion       = "1.9.1"
 
