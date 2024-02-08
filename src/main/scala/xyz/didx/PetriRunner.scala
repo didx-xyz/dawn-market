@@ -14,7 +14,6 @@ import scala.concurrent.ExecutionContext
  */
 
 object PetriRunner extends IOApp:
-  // given logger[F[_]: Sync]: Logger[F] = Slf4jLogger.getLogger[F]
   given logger: org.log4s.Logger = org.log4s.getLogger
   given ec: ExecutionContext     =
     scala.concurrent.ExecutionContext.Implicits.global

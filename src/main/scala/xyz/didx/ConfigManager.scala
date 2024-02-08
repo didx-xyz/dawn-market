@@ -1,30 +1,18 @@
 package xyz.didx
 
 import cats.effect.IO
-import cats.effect._
+import cats.effect.*
 import cats.effect.kernel.Sync
-import cats.implicits._
+import cats.implicits.*
 import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import pureconfig.*
 import pureconfig.generic.derivation.default.*
 
 object ConfigManager {
-  given Logger[IO]                            = Slf4jLogger.getLogger[IO]
-  def info[F[_]: Sync: Logger](value: String) =
-    for
-      _         <- Logger[F].info("Logging at start of passForEasierUse")
-      something <- Sync[F].delay(println("I could do anything"))
-      // .onError{case e => Logger[F].error(e)("Something Went Wrong in passForEasierUse")}
-      _         <- Logger[F].info(s"$value")
-    yield something
-
-  // println(s"Main: $value")
-  // logger.info(s"$value"
-
-  def err[T](value: T)(using logger: Logger[IO]): IO[Unit] =
-    println(s"Main: $value")
-    logger.error(s"$value")
+  given Logger[IO]                = Slf4jLogger.getLogger[IO]
+  def info[T](value: T): IO[Unit] = Logger[IO].info(s"$value")
+  def err[T](value: T): IO[Unit]  = Logger[IO].error(s"$value")
 
   case class WeightConf(
     start: String,
@@ -71,11 +59,9 @@ object ConfigManager {
          |""".stripMargin
 
   def protocolConf(interfaceName: String): ProtocolConf =
-    // ConfigSource.default.at(s"$interfaceName-proto").load[ProtocolConf] match
     ConfigSource.file("src/main/resources/application.conf").at(s"$interfaceName-proto").load[ProtocolConf] match
-
       case Left(error) =>
-        err(s"Error: $error")
+        err(s"$error")
         ProtocolConf(List(), List(), StartConf("", 0, List()), "", List())
       case Right(conf) => conf
 

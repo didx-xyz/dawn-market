@@ -11,9 +11,9 @@ import org.http4s.server.Router
 import sttp.client3.HttpURLConnectionBackend
 import sttp.client3.SttpBackend
 import sttp.model.*
-import sttp.tapir._
-import sttp.tapir.generic.auto._
-import sttp.tapir.json.circe._
+import sttp.tapir.*
+import sttp.tapir.generic.auto.*
+import sttp.tapir.json.circe.*
 import sttp.tapir.server.http4s.Http4sServerInterpreter
 import sttp.tapir.swagger.bundle.SwaggerInterpreter
 import xyz.didx.ConfigManager.ProtocolConf
@@ -32,9 +32,6 @@ import scala.collection.immutable.ListSet
 case class PetriCompiler[F[_]](interfaceName: String)(using
   logger: org.log4s.Logger
 ):
-
-  val x = this.getClass()
-
   val protocolConf: ProtocolConf = ConfigManager.protocolConf(interfaceName)
 
   val pl1: ListSet[String]       =
@@ -47,8 +44,7 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
   val colourMap: Map[Colour, String] = paramList.zipWithIndex.map { case (k, v) =>
     (Colour.fromOrdinal(v), k)
   }.toMap
-  val paramMap: Map[String, Colour]  =
-    colourMap.map(_.swap) // (m => m._2 -> m._1)
+  val paramMap: Map[String, Colour]  = colourMap.map(_.swap)
   val paramValues                    = colourMap.map((k, v) => k -> "")
 
   val places: Map[String, Place] = protocolConf.places.map { p =>
@@ -70,7 +66,6 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
           .flatMap(w => w.actionParams)
     p -> capacity
   }.toMap
-  // println(s"places -> $places")
 
   val transitions: Map[String, Transition] = protocolConf.transitions
     .map(t => t -> Transition(t, CastanetService(), RPC(t, "", "")))
