@@ -30,6 +30,8 @@ lazy val circeVersion       = "0.14.2"
 lazy val http4sVersion      = "0.23.25"
 lazy val http4sBlazeVersion = "0.23.16"
 lazy val logbackVersion     = "1.4.14"
+lazy val munitVersion       = "1.0.0-M11"
+lazy val munitCEVersion     = "2.0.0-M4"
 lazy val pureconfigVersion  = "0.17.5"
 lazy val scalaTestVersion   = "3.2.18"
 lazy val slf4jVersion       = "2.0.12"
@@ -45,6 +47,7 @@ lazy val commonSettings   = Seq(
     "releases" at "https://oss.sonatype.org/content/repositories/releases"
   ),
   libraryDependencies ++= Seq(
+    "xyz.didx"                      %% "castanet"                       % castanetVersion,
     "org.typelevel"                 %% "cats-effect"                    % catsEffectVersion,
     "io.circe"                      %% "circe-core"                     % circeVersion,
     "io.circe"                      %% "circe-parser"                   % circeVersion,
@@ -54,7 +57,6 @@ lazy val commonSettings   = Seq(
     "com.softwaremill.sttp.client3" %% "core"                           % sttpVersion,
     "com.softwaremill.sttp.client3" %% "circe"                          % sttpVersion,
     "com.softwaremill.sttp.client3" %% "async-http-client-backend-cats" % sttpVersion,
-    "xyz.didx"                      %% "castanet"                       % castanetVersion,
     "com.softwaremill.sttp.tapir"   %% "tapir-http4s-server"            % tapirVersion,
     "com.softwaremill.sttp.tapir"   %% "tapir-json-circe"               % tapirVersion,
     "com.softwaremill.sttp.tapir"   %% "tapir-swagger-ui-bundle"        % tapirVersion,
@@ -65,6 +67,7 @@ lazy val commonSettings   = Seq(
     "org.http4s"                    %% "http4s-ember-server"            % http4sVersion,
     "org.slf4j"                      % "slf4j-nop"                      % slf4jVersion
   ) ++ Seq(
+    "xyz.didx"                      %% "castanet"                       % castanetVersion    % Test,
     "org.scalatest"                 %% "scalatest"                      % scalaTestVersion   % Test,
     "org.typelevel"                 %% "cats-effect"                    % catsEffectVersion  % Test,
     "io.circe"                      %% "circe-core"                     % circeVersion       % Test,
@@ -75,7 +78,6 @@ lazy val commonSettings   = Seq(
     "com.softwaremill.sttp.client3" %% "circe"                          % sttpVersion        % Test,
     "com.softwaremill.sttp.client3" %% "core"                           % sttpVersion        % Test,
     "com.softwaremill.sttp.client3" %% "async-http-client-backend-cats" % sttpVersion        % Test,
-    "xyz.didx"                      %% "castanet"                       % castanetVersion    % Test,
     "com.softwaremill.sttp.tapir"   %% "tapir-http4s-server"            % tapirVersion       % Test,
     "com.softwaremill.sttp.tapir"   %% "tapir-json-circe"               % tapirVersion       % Test,
     "com.softwaremill.sttp.tapir"   %% "tapir-sttp-stub-server"         % tapirVersion       % Test,
@@ -85,7 +87,10 @@ lazy val commonSettings   = Seq(
     "org.http4s"                    %% "http4s-blaze-server"            % http4sBlazeVersion % Test,
     "org.http4s"                    %% "http4s-dsl"                     % http4sVersion      % Test,
     "org.http4s"                    %% "http4s-ember-server"            % http4sVersion      % Test,
-    "org.slf4j"                      % "slf4j-nop"                      % slf4jVersion       % Test
+    "org.slf4j"                      % "slf4j-nop"                      % slf4jVersion       % Test,
+    "org.scalameta"                 %% "munit"                          % munitVersion       % Test,
+    "org.scalameta"                 %% "munit-scalacheck"               % munitVersion       % Test,
+    "org.typelevel"                 %% "munit-cats-effect"              % munitCEVersion     % Test
   )
 )
 lazy val scalafixSettings = Seq(semanticdbEnabled := true)
