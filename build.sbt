@@ -32,7 +32,7 @@ lazy val http4sBlazeVersion = "0.23.16"
 lazy val logbackVersion     = "1.4.14"
 lazy val pureconfigVersion  = "0.17.5"
 lazy val scalaTestVersion   = "3.2.18"
-lazy val slf4jVersion       = "2.0.11"
+lazy val slf4jVersion       = "2.0.12"
 lazy val sttpVersion        = "3.9.2"
 lazy val tapirVersion       = "1.9.1"
 
@@ -59,7 +59,7 @@ lazy val commonSettings   = Seq(
     "com.softwaremill.sttp.tapir"   %% "tapir-json-circe"               % tapirVersion,
     "com.softwaremill.sttp.tapir"   %% "tapir-swagger-ui-bundle"        % tapirVersion,
     "ch.qos.logback"                 % "logback-classic"                % logbackVersion,
-    "com.github.geirolz"            %% "erules-core"                    % "0.1.0",
+    "com.github.geirolz"            %% "erules-core"                    % "0.1.1",
     "org.http4s"                    %% "http4s-blaze-server"            % http4sBlazeVersion,
     "org.http4s"                    %% "http4s-dsl"                     % http4sVersion,
     "org.http4s"                    %% "http4s-ember-server"            % http4sVersion,
@@ -81,7 +81,7 @@ lazy val commonSettings   = Seq(
     "com.softwaremill.sttp.tapir"   %% "tapir-sttp-stub-server"         % tapirVersion       % Test,
     "com.softwaremill.sttp.tapir"   %% "tapir-swagger-ui-bundle"        % tapirVersion       % Test,
     "ch.qos.logback"                 % "logback-classic"                % logbackVersion     % Test,
-    "com.github.geirolz"            %% "erules-core"                    % "0.1.0"            % Test,
+    "com.github.geirolz"            %% "erules-core"                    % "0.1.1"            % Test,
     "org.http4s"                    %% "http4s-blaze-server"            % http4sBlazeVersion % Test,
     "org.http4s"                    %% "http4s-dsl"                     % http4sVersion      % Test,
     "org.http4s"                    %% "http4s-ember-server"            % http4sVersion      % Test,
