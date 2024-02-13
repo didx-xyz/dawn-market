@@ -34,8 +34,14 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
 ):
   val protocolConf: ProtocolConf = ConfigManager.protocolConf(interfaceName)
 
+  val stateToAgentScript: Map[String, String] =
+    protocolConf.weights.map(weight => (weight.start, weight.agentScript.getOrElse(""))).toMap
+
+  val stateToConversationFields: Map[String, String] =
+    protocolConf.weights.map(weight => (weight.start, weight.conversationResult.getOrElse(""))).toMap
+
   val pl1: ListSet[String]       =
-    ListSet.from(protocolConf.weights).flatMap(w => w.actionParams)
+    ListSet.from(protocolConf.weights).flatMap(weightConf => weightConf.actionParams)
   val pl2: ListSet[String]       = ListSet
     .from(protocolConf.start.initialParams)
     .flatMap(w => protocolConf.start.initialParams)
@@ -57,14 +63,14 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
     p -> Place(p, capacity)
   }.toMap
 
-  val placeParams: Map[String, List[String]] = protocolConf.places.map { p =>
+  val placeParams: Map[String, List[String]] = protocolConf.places.map { place =>
     val capacity: List[String] =
-      if p == protocolConf.start.place then protocolConf.start.initialParams
+      if place == protocolConf.start.place then protocolConf.start.initialParams
       else
         protocolConf.weights
-          .filter(w => w.end == p)
-          .flatMap(w => w.actionParams)
-    p -> capacity
+          .filter(weight => weight.end == place)
+          .flatMap(weight => weight.actionParams)
+    place -> capacity
   }.toMap
 
   val transitions: Map[String, Transition] = protocolConf.transitions
@@ -275,16 +281,14 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
       <+> showEndpointRoutes
   val conversations: IO[List[String]] = generateConversationAgents()
 
-  def writerIO(path: String): IO[FileWriter]                    =
+  def writerIO(path: String): IO[FileWriter] =
     IO(new FileWriter(path, false))
+
   def writeLines(writer: FileWriter, content: String): IO[Unit] =
     IO(writer.write(content))
 
   def closeWriteFile(writer: FileWriter): IO[Unit] =
     IO(writer.close())
-
-  def writeCode(writer: FileWriter, chatbotCode: String) =
-    IO(writer.write(chatbotCode))
 
   def makeResourceForWrite(path: String): Resource[IO, FileWriter] =
     Resource.make(writerIO(path))(fw => closeWriteFile(fw))
@@ -310,31 +314,42 @@ case class PetriCompiler[F[_]](interfaceName: String)(using
       generated.mkdir()
     placeParams
       .map { p =>
-        val params: (String, String) =
-          dashToCapitalize(p._1) -> s"${dashToCamelCase(p._2).map(s => s"$s: String").mkString(", ")}"
-        val chatBotCode =
-          s"""
-             |package xyz.didx.gleibnif
-             |import com.xebia.functional.xef.scala.agents.DefaultSearch
-             |import com.xebia.functional.xef.scala.conversation.*
-             |object ChatBot:
-             |  case class ${dashToCapitalize(p._1)}(${params._2}) 
-             |  private def getQuestionAnswer(question: String)(using scope: AIScope): List[String] =
-             |    contextScope(DefaultSearch.search("Weather in Cádiz, Spain")) {
-             |      promptMessage(question)
-             |  }
+        val state              = p._1
+        val objectName         = dashToCapitalize(state)
+        val inputs             = s"${dashToCamelCase(p._2).map(s => s"$s: String").mkString(", ")}"
+        val agentScript        = if state != "end" then stateToAgentScript(state) else ""
+        val conversationFields = if state != "end" then stateToConversationFields(state) else ""
+
+        val defaultConversationField = "nextMessageToUser: String"
+
+        val conversationResultFields = Seq(defaultConversationField, conversationFields).filter(_ != "").mkString(", ")
+
+        val generatedCode =
+          s"""package xyz.didx.flow.generated
              |
-             |  @main def runWeather: Unit = ai {
-             |    val question = "Knowing this forecast, what clothes do you recommend I should wear if I live in Cádiz?"
-             |    println(getQuestionAnswer(question).mkString("\\n"))
-             |  }.getOrElse(ex => println(ex.getMessage))
+             |import com.xebia.functional.xef.prompt.JvmPromptBuilder
+             |import com.xebia.functional.xef.prompt.PromptBuilder
+             |import com.xebia.functional.xef.scala.conversation.*
+             |
+             |case class ConversationResult($conversationResultFields)
+             |
+             |object $objectName:
+             |  private def getResponse(input: String): List[String] =
+             |    val builder: PromptBuilder = new JvmPromptBuilder().addSystemMessage("$agentScript")
+             |
+             |    // Add the user message to the builder
+             |    builder.addUserMessage(input)
+             |
+             |    conversation(
+             |      prompt[ConversationResult](builder.build())
+             |    )
              |""".stripMargin
 
-        val filePath = s"./generated/${params._1}.scala"
+        val filePath = s"$dir/$objectName.scala"
 
         for
-          _ <- IO.println(s"Chatbot code written to file: $filePath")
-          _ <- makeResourceForWrite(filePath).use(writeCode(_, chatBotCode))
+          _ <- IO.println(s"Code written to file: $filePath")
+          _ <- makeResourceForWrite(filePath).use(writeLines(_, generatedCode))
           p <- IO(filePath)
         yield p
       }
