@@ -19,7 +19,9 @@ object ConfigManager {
     transition: String,
     end: String,
     action: String,
-    actionParams: List[String]
+    actionParams: List[String],
+    agentScript: Option[String] = None, // Script passed to OpenAI agent
+    conversationResult: Option[String] = None // Case class describing result obtained from a conversation
   ) derives ConfigReader:
     override def toString(): String =
       s"""
@@ -28,6 +30,8 @@ object ConfigManager {
          |end: $end
          |action: $action
          |actionParams: $actionParams
+         |agentScript: $agentScript
+         |conversationResult: $conversationResult
          |""".stripMargin
 
   case class StartConf(
