@@ -20,7 +20,7 @@ object PetriRunner extends IOApp:
 
   def run(args: List[String]): IO[ExitCode] =
 
-    val interfaceName = args.headOption.getOrElse("purchase")
+    val interfaceName = args.headOption.getOrElse("yoma-query-opps")
     val compiler      = PetriCompiler[IO](interfaceName)
     compiler.generateConversationAgents() &>
       BlazeServerBuilder[IO]
