@@ -4,21 +4,21 @@ import cats.data.State
 import cats.data.StateT
 import cats.effect.IO
 import cats.effect.Resource
-import cats.implicits.*
+import cats.implicits._
 import cats.syntax.all.toSemigroupKOps
 import org.http4s.HttpRoutes
 import org.http4s.server.Router
 import sttp.client3.HttpURLConnectionBackend
 import sttp.client3.SttpBackend
-import sttp.model.*
-import sttp.tapir.*
-import sttp.tapir.generic.auto.*
-import sttp.tapir.json.circe.*
+import sttp.model._
+import sttp.tapir._
+import sttp.tapir.generic.auto._
+import sttp.tapir.json.circe._
 import sttp.tapir.server.http4s.Http4sServerInterpreter
 import sttp.tapir.swagger.bundle.SwaggerInterpreter
 import xyz.didx.ConfigManager.ProtocolConf
 import xyz.didx.StateManager
-import xyz.didx.castanet.*
+import xyz.didx.castanet._
 import xyz.didx.castanet.{Service => CastanetService}
 
 import java.io.File
