@@ -25,7 +25,7 @@ lazy val root = project
   )
 
 lazy val castanetVersion    = "0.1.11"
-lazy val catsEffectVersion  = "3.5.3"
+lazy val catsEffectVersion  = "3.5.4"
 lazy val circeVersion       = "0.14.2"
 lazy val http4sVersion      = "0.23.26"
 lazy val http4sBlazeVersion = "0.23.16"
