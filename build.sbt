@@ -34,7 +34,7 @@ lazy val munitVersion       = "1.0.0-M11"
 lazy val munitCEVersion     = "2.0.0-M4"
 lazy val pureconfigVersion  = "0.17.6"
 lazy val scalaTestVersion   = "3.2.18"
-lazy val slf4jVersion       = "2.0.12"
+lazy val slf4jVersion       = "2.0.13"
 lazy val sttpVersion        = "3.9.5"
 lazy val tapirVersion       = "1.9.1"
 
