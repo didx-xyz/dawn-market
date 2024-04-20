@@ -23,6 +23,14 @@ lazy val root = project
     commonSettings,
     scalafixSettings
   )
+  // .enablePlugins(DockerPlugin)
+  .enablePlugins(JavaAppPackaging, DockerPlugin)
+  .settings(
+    dockerBaseImage      := "eclipse-temurin:21-jre",
+    Docker / packageName := "dawn-market",
+    Docker / version     := "latest",
+    dockerExposedPorts   := Seq(8080)
+  )
 
 lazy val castanetVersion    = "0.1.11"
 lazy val catsEffectVersion  = "3.5.4"
@@ -94,3 +102,24 @@ lazy val commonSettings   = Seq(
   )
 )
 lazy val scalafixSettings = Seq(semanticdbEnabled := true)
+
+dockerBuildCommand := {
+  // Interpret the USE_BUILDX variable's "truthiness"
+  val useBuildX = sys.env.get("USE_BUILDX").map(_.toLowerCase) match {
+    case Some("true") | Some("1") | Some("yes")        => true
+    case Some("false") | Some("0") | Some("no") | None => false
+    case _                                             => true // Default to true for any non-recognized value
+  }
+
+  if (useBuildX)
+    // Use buildx for building Docker images
+    dockerExecCommand.value ++ Seq(
+      "buildx",
+      "build",
+      "--platform=linux/amd64,linux/arm64", // Specify target platforms as needed
+      "--load"
+    ) ++ dockerBuildOptions.value :+ "."
+  else
+    // Fallback to the standard docker build command
+    dockerBuildCommand.value
+}

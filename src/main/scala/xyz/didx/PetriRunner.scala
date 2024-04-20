@@ -31,9 +31,8 @@ object PetriRunner extends IOApp:
         .resource
         .use { _ =>
           IO {
-            println("Go to: http://localhost:8080/docs")
-            println("Press any key to exit ...")
-            scala.io.StdIn.readLine()
-          }
+            println("🚀 DIDx Petri Runner: Server started!")
+            println("Swagger UI: http://localhost:8080/docs")
+          } *> IO.never
         }
         .as(ExitCode.Success)
