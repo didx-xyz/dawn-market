@@ -6,9 +6,9 @@
 //> using repository https://jitpack.io
 
 //> using dep org.typelevel::cats-effect:3.5.2
-//> using dep io.circe::circe-core:0.14.7
-//> using dep io.circe::circe-parser:0.14.7
-//> using dep io.circe::circe-generic:0.14.7
+//> using dep io.circe::circe-core:0.14.8
+//> using dep io.circe::circe-parser:0.14.8
+//> using dep io.circe::circe-generic:0.14.8
 //> using dep com.github.pureconfig::pureconfig-core:0.17.4
 //> using dep com.github.pureconfig::pureconfig-cats-effect:0.17.4
 
