@@ -1,4 +1,4 @@
-//> using scala 3.3.1
+//> using scala 3.3.4
 //> using toolkit typelevel:latest
 ////> using option scalacOptions -Xmax-inlines:64
 //> using packaging.output "dawnctl"
